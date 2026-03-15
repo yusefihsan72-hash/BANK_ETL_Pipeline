@@ -3,7 +3,8 @@
 import time
 import logging
 import csv
-from datetime import datetime
+import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 
 from config.config_loader import load_config
@@ -21,58 +22,81 @@ logger = logging.getLogger("pipeline")
 
 
 # ─────────────────────────────────────────────────────────────
-# File Processing
+# Archive Helper
 # ─────────────────────────────────────────────────────────────
 
-def process_file(file_path: Path, config: dict, loader: WarehouseLoader) -> None:
+def archive_file(file_path: Path, config: dict) -> Path:
     """
-    Process a single CSV file through the full ETL pipeline:
-    Extract → Transform → Validate → Load.
+    Move a successfully processed CSV file to the archive folder.
 
-    Skips files that are still being written (unstable size).
-    Skips files that have already been processed (tracked by hash).
-    Sends pipeline-level failures to the quarantine error log.
+    Archive structure:
+        data/archive/YYYY/MM/DD/<original_filename>
+
+    If a file with the same name already exists in the archive,
+    a timestamp suffix is added to avoid overwriting it:
+        240101_Customer_20240110_153045.csv
 
     Args:
-        file_path: Path to the CSV file to process.
+        file_path: Path to the processed CSV file.
         config:    Full pipeline configuration dictionary.
-        loader:    Active WarehouseLoader instance for DB operations.
+
+    Returns:
+        The final archive path where the file was moved.
     """
-    # -- File stability check -------------------------------------
-    # Wait 1 second and compare file size before and after.
-    # If the size changed, the file is still being written — skip it.
-    size_before = file_path.stat().st_size
-    time.sleep(1)
-    size_after = file_path.stat().st_size
+    # Read archive root from config — default to data/archive
+    archive_root = Path(
+        config.get("watcher", {}).get("archive_dir", "data/archive")
+    )
 
-    if size_before != size_after:
-        logger.info("File is still being written, skipping: %s", file_path.name)
-        return
+    # Organize into sub-folders by date: YYYY/MM/DD
+    today        = datetime.now(timezone.utc)
+    archive_dir  = archive_root / str(today.year) \
+                                / f"{today.month:02d}" \
+                                / f"{today.day:02d}"
+    archive_dir.mkdir(parents=True, exist_ok=True)
 
-    # -- Extraction -----------------------------------------------
-    # extract_csv_file returns None if the file was already processed.
-    result = extract_csv_file(file_path, config)
-    if result is None:
-        return
+    destination = archive_dir / file_path.name
 
-    logger.info("[EXTRACT] %s → %d rows extracted", file_path.name, len(result.df))
+    # If file already exists in archive — add timestamp suffix
+    if destination.exists():
+        stem      = file_path.stem
+        suffix    = file_path.suffix
+        timestamp = today.strftime("%Y%m%d_%H%M%S")
+        destination = archive_dir / f"{stem}_{timestamp}{suffix}"
 
-    # -- Route to the correct processing function -----------------
-    try:
-        if result.source == "customer":
-            _process_customers(result.df, loader)
+    shutil.move(str(file_path), str(destination))
+    logger.info("[ARCHIVE] %s → %s", file_path.name, destination)
 
-        elif result.source == "transaction":
-            _process_transactions(result.df, loader)
+    return destination
 
-        else:
-            logger.warning("Unknown source type '%s' for file: %s",
-                           result.source, file_path.name)
 
-    except Exception as e:
-        # Log the full traceback and write the file to the error quarantine.
-        logger.exception("Pipeline failed for file %s: %s", file_path.name, e)
-        _quarantine_file(file_path, str(e))
+# ─────────────────────────────────────────────────────────────
+# Error Quarantine
+# ─────────────────────────────────────────────────────────────
+
+def _quarantine_file(file_path: Path, error_msg: str) -> None:
+    """
+    Record a pipeline-level file failure in the error quarantine log.
+    Appends one row per failure to quarantine/pipeline_errors.csv.
+
+    Columns: file_name | error_message | timestamp
+    """
+    q_path = Path("quarantine") / "pipeline_errors.csv"
+    q_path.parent.mkdir(parents=True, exist_ok=True)
+
+    write_header = not q_path.exists()
+
+    with q_path.open("a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        if write_header:
+            writer.writerow(["file_name", "error_message", "timestamp"])
+        writer.writerow([
+            file_path.name,
+            error_msg,
+            datetime.now(timezone.utc).isoformat(),
+        ])
+
+    logger.info("[QUARANTINE] Failure recorded for: %s", file_path.name)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -81,35 +105,23 @@ def process_file(file_path: Path, config: dict, loader: WarehouseLoader) -> None
 
 def _process_customers(df, loader: WarehouseLoader) -> None:
     """
-    Run the Transform → Validate → Load pipeline for customer data.
-
-    Steps:
-        1. Standardize categorical values and data types.
-        2. Clean: drop missing keys, flag nulls, remove duplicates.
-        3. Validate: schema, completeness, uniqueness, range checks.
-        4. Save failed records to quarantine CSV.
-        5. Save validation summary report.
-        6. Load valid records into dim_customer.
-
-    Args:
-        df:     Extracted customer DataFrame.
-        loader: Active WarehouseLoader instance.
+    Transform → Validate → Load pipeline for customer data.
     """
-    # Step 1 & 2 — Transform
+    # Transform
     df = standardize_customers(df)
     df = clean_customers(df)
     logger.info("[TRANSFORM] customers → %d rows after cleaning", len(df))
 
-    # Step 3 — Validate
+    # Validate
     passed, failed = validate_customers(df)
     logger.info("[VALIDATE] customers → %d passed / %d failed",
                 len(passed), len(failed))
 
-    # Step 4 & 5 — Quarantine + Report
+    # Quarantine + Report
     save_quarantine(failed, "customer")
     save_summary(len(passed), len(failed), "customer")
 
-    # Step 6 — Load
+    # Load
     if not passed.empty:
         loader.load_dim_customer(passed)
         logger.info("[LOAD] dim_customer → %d rows loaded", len(passed))
@@ -123,41 +135,25 @@ def _process_customers(df, loader: WarehouseLoader) -> None:
 
 def _process_transactions(df, loader: WarehouseLoader) -> None:
     """
-    Run the Transform → Validate → Load pipeline for transaction data.
-
-    Steps:
-        1. Standardize dates, amounts, and transaction types.
-        2. Clean: drop missing keys, flag nulls, remove duplicates.
-        3. Enrich: derive date parts, amount flags (is_debit, is_credit).
-        4. Validate: schema, completeness, uniqueness, allowed values.
-        5. Save failed records to quarantine CSV.
-        6. Save validation summary report.
-        7. Load valid records into dimension tables, then fact table.
-           Load order: dim_date → dim_transaction_type →
-                       dim_account_profile → fact_transactions.
-
-    Args:
-        df:     Extracted transaction DataFrame.
-        loader: Active WarehouseLoader instance.
+    Transform → Validate → Load pipeline for transaction data.
+    Loads dimension tables first, then the fact table.
     """
-    # Step 1, 2 & 3 — Transform + Enrich
+    # Transform
     df = standardize_transactions(df)
     df = clean_transactions(df)
     df = enrich_transactions(df)
     logger.info("[TRANSFORM] transactions → %d rows after cleaning", len(df))
 
-    # Step 4 — Validate
+    # Validate
     passed, failed = validate_transactions(df)
     logger.info("[VALIDATE] transactions → %d passed / %d failed",
                 len(passed), len(failed))
 
-    # Step 5 & 6 — Quarantine + Report
+    # Quarantine + Report
     save_quarantine(failed, "transactions")
     save_summary(len(passed), len(failed), "transactions")
 
-    # Step 7 — Load dimensions first, then fact table
-    # Dimension tables must be loaded before the fact table
-    # to ensure all foreign keys exist before inserting facts.
+    # Load dimensions first, then fact
     if not passed.empty:
         loader.load_dim_date(passed)
         logger.info("[LOAD] dim_date loaded")
@@ -175,38 +171,68 @@ def _process_transactions(df, loader: WarehouseLoader) -> None:
 
 
 # ─────────────────────────────────────────────────────────────
-# Error Quarantine
+# File Processing
 # ─────────────────────────────────────────────────────────────
 
-def _quarantine_file(file_path: Path, error_msg: str) -> None:
+def process_file(file_path: Path, config: dict, loader: WarehouseLoader) -> None:
     """
-    Record a pipeline-level file failure in the error quarantine log.
+    Process a single CSV file through the full ETL pipeline:
+        Extract → Transform → Validate → Load → Archive
 
-    Appends one row per failure to quarantine/pipeline_errors.csv.
-    Creates the file and header automatically on first write.
-
-    Columns: file_name | error_message | timestamp
+    On success: file is moved to data/archive/YYYY/MM/DD/
+    On failure: error is logged in quarantine/pipeline_errors.csv
+                and the file stays in data/incoming/ for inspection.
 
     Args:
-        file_path:  Path to the file that caused the failure.
-        error_msg:  String representation of the exception.
+        file_path: Path to the CSV file to process.
+        config:    Full pipeline configuration dictionary.
+        loader:    Active WarehouseLoader instance.
     """
-    q_path = Path("quarantine") / "pipeline_errors.csv"
-    q_path.parent.mkdir(parents=True, exist_ok=True)
+    # -- File stability check ---------------------------------
+    # If the file size changes within 1 second it is still
+    # being written — skip it and retry on the next poll cycle.
+    size_before = file_path.stat().st_size
+    time.sleep(1)
+    size_after  = file_path.stat().st_size
 
-    write_header = not q_path.exists()
+    if size_before != size_after:
+        logger.info("[SKIP] File still being written: %s", file_path.name)
+        return
 
-    with q_path.open("a", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        if write_header:
-            writer.writerow(["file_name", "error_message", "timestamp"])
-        writer.writerow([
-            file_path.name,
-            error_msg,
-            datetime.utcnow().isoformat()
-        ])
+    # -- Extraction -------------------------------------------
+    result = extract_csv_file(file_path, config)
+    if result is None:
+        # Already processed in a previous run — archive it now
+        # in case it was left behind after a crash
+        archive_file(file_path, config)
+        return
 
-    logger.info("File failure recorded in quarantine: %s", file_path.name)
+    logger.info("[EXTRACT] %s → %d rows", file_path.name, len(result.df))
+
+    # -- Route to correct processing function -----------------
+    try:
+        if result.source == "customer":
+            _process_customers(result.df, loader)
+
+        elif result.source == "transaction":
+            _process_transactions(result.df, loader)
+
+        else:
+            logger.warning("[SKIP] Unknown source type '%s': %s",
+                           result.source, file_path.name)
+            return
+
+        # -- Archive on success -------------------------------
+        archive_path = archive_file(file_path, config)
+        logger.info("[DONE] %s successfully processed and archived → %s",
+                    file_path.name, archive_path)
+
+    except Exception as e:
+        # Log full traceback, record in quarantine error log.
+        # File stays in data/incoming/ for manual inspection.
+        logger.exception("[ERROR] Pipeline failed for %s: %s",
+                         file_path.name, e)
+        _quarantine_file(file_path, str(e))
 
 
 # ─────────────────────────────────────────────────────────────
@@ -215,59 +241,51 @@ def _quarantine_file(file_path: Path, error_msg: str) -> None:
 
 def watch_directory(config: dict, loader: WarehouseLoader) -> None:
     """
-    Continuously poll the incoming data directory for new CSV files.
+    Continuously poll the incoming directory for new CSV files.
 
-    Runs an infinite loop with a configurable sleep interval.
-    On each iteration:
-        - Scans data_dir for all *.csv files.
-        - Filters out already-processed files using the tracker.
-        - Processes each new file in sorted (deterministic) order.
-        - Logs a debug message if no new files are found.
+    Each iteration:
+        1. Scan data/incoming/ for *.csv files.
+        2. Filter out already-processed files.
+        3. Process each new file → archive on success.
+        4. Sleep for polling_interval_seconds.
 
-    The loop only stops when a KeyboardInterrupt (Ctrl+C) is received,
-    which is re-raised to be handled cleanly by run_pipeline().
-
-    Args:
-        config: Full pipeline configuration dictionary.
-        loader: Active WarehouseLoader instance shared across iterations.
+    Stops only on KeyboardInterrupt (Ctrl+C).
     """
     data_dir = Path(config["watcher"]["data_dir"])
     polling  = config["watcher"].get("polling_interval_seconds", 10)
 
+    # Ensure archive root exists at startup
+    archive_root = Path(config.get("watcher", {}).get("archive_dir", "data/archive"))
+    archive_root.mkdir(parents=True, exist_ok=True)
+
     logger.info("=" * 55)
-    logger.info("Pipeline watching directory: %s", data_dir)
-    logger.info("Poll interval: %ds | Press Ctrl+C to stop", polling)
+    logger.info("Pipeline watching : %s", data_dir)
+    logger.info("Archive folder    : %s", archive_root)
+    logger.info("Poll interval     : %ds | Ctrl+C to stop", polling)
     logger.info("=" * 55)
 
     while True:
         try:
-            # Collect all CSV files in the incoming directory
             csv_files = list(data_dir.glob("*.csv"))
 
             if csv_files:
-                # Filter to only files not yet processed
                 new_files = [f for f in csv_files if not is_processed(f)]
-
                 if new_files:
                     logger.info("Found %d new file(s) to process", len(new_files))
-                    # Sort ensures deterministic processing order
                     for file_path in sorted(new_files):
-                        logger.info("-- Processing: %s", file_path.name)
+                        logger.info("── Processing: %s", file_path.name)
                         process_file(file_path, config, loader)
                 else:
-                    logger.debug("No new files found. Waiting...")
+                    logger.debug("No new files — waiting...")
             else:
-                logger.debug("Directory is empty. Waiting...")
+                logger.debug("Directory empty — waiting...")
 
         except KeyboardInterrupt:
-            # Re-raise so run_pipeline() can handle shutdown cleanly
             raise
 
         except Exception as e:
-            # Log unexpected errors in the watch loop but keep running
             logger.exception("Unexpected error in watch loop: %s", e)
 
-        # Wait before the next scan
         time.sleep(polling)
 
 
@@ -279,45 +297,32 @@ def run_pipeline(config: dict = None) -> None:
     """
     Main entry point for the ETL pipeline.
 
-    Responsibilities:
-        1. Load configuration from config/config.yaml (or use provided config).
-        2. Initialize logging (file + console handlers).
-        3. Create the WarehouseLoader (connects to SQLite, creates tables).
-        4. Start the infinite directory watcher loop.
-        5. Handle graceful shutdown on Ctrl+C.
-        6. Ensure the database connection is closed on exit.
-
-    Args:
-        config: Optional pre-loaded config dictionary.
-                If None, loads from 'config/config.yaml'.
-                Primarily used to inject test configs in unit tests.
+    1. Load config from config/config.yaml.
+    2. Initialize logging.
+    3. Create WarehouseLoader (connects to SQLite, creates tables).
+    4. Start infinite directory watcher loop.
+    5. Graceful shutdown on Ctrl+C.
+    6. Close DB connection on exit.
     """
-    # Step 1 — Load config
     if config is None:
         config = load_config("config/config.yaml")
 
-    # Step 2 — Initialize logging
     init_logging(
         log_file=config["logging"]["file"],
-        level=config["logging"].get("level", "INFO")
+        level=config["logging"].get("level", "INFO"),
     )
 
-    logger.info("Pipeline starting up...")
+    logger.info("Pipeline starting...")
 
-    # Step 3 — Initialize warehouse loader
-    # This creates the SQLite database and all tables if they don't exist.
     loader = WarehouseLoader()
 
-    # Step 4 — Start watching for new files
     try:
         watch_directory(config, loader)
 
     except KeyboardInterrupt:
-        # Step 5 — Graceful shutdown on Ctrl+C
-        logger.info("Pipeline stopped by user (Ctrl+C). Shutting down...")
+        logger.info("Pipeline stopped by user (Ctrl+C).")
 
     finally:
-        # Step 6 — Always close the DB connection on exit
         if hasattr(loader, "conn") and loader.conn:
             loader.conn.close()
             logger.info("Database connection closed.")

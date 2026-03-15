@@ -629,3 +629,93 @@ ID12691,25.0,,INNER_CITY,23818.6,True,,False,,,False,False,False,False,missing_r
 ID12694,65.0,,SUBURBAN,51417.0,True,,False,,,False,True,False,False,missing_required_field:sex,2026-03-15T14:26:17.032881
 ID12698,,F,TOWN,15976.3,True,0.0,True,,,False,True,False,True,missing_required_field:age,2026-03-15T14:26:17.032881
 ID12700,,,NAN,26671.6,False,0.0,True,,,True,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T14:26:17.032881
+ID12101,48.0,,INNER_CITY,17546.0,,1.0,,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12104,23.0,,TOWN,20375.4,True,3.0,False,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12106,,F,TOWN,37869.6,True,2.0,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12110,54.0,,TOWN,24212.1,True,,True,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12112,,F,INNER_CITY,,,0.0,True,,,True,False,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12115,,M,RURAL,,True,0.0,False,,,True,False,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12117,,F,TOWN,17729.8,True,2.0,False,,,True,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12121,,M,INNER_CITY,,True,,False,,,,True,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12122,,M,TOWN,16497.3,True,,,,,False,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12125,,,NAN,12640.3,False,2.0,True,,,False,False,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12131,61.0,,NAN,22942.9,,2.0,,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12132,,F,TOWN,16325.8,True,2.0,False,,,False,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12138,36.0,,RURAL,13381.0,False,0.0,True,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12145,,M,INNER_CITY,,,,True,,,True,False,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12147,50.0,,INNER_CITY,13283.9,False,1.0,True,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12148,29.0,,INNER_CITY,,False,2.0,,,,True,True,True,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12149,,,INNER_CITY,39547.8,False,2.0,,,,,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12150,,F,RURAL,17867.3,True,2.0,,,,False,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12151,24.0,,TOWN,,False,2.0,True,,,False,False,True,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12155,,M,NAN,56842.5,True,0.0,False,,,True,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12156,,F,RURAL,47835.8,False,3.0,False,,,,True,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12157,,F,INNER_CITY,24977.5,False,0.0,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12158,,M,INNER_CITY,,True,0.0,,,,False,True,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12160,,M,NAN,,False,1.0,True,,,,True,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12163,,,INNER_CITY,27022.6,True,2.0,,,,,False,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12164,,M,NAN,11700.4,True,,False,,,,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12165,,,TOWN,5014.21,False,0.0,,,,,False,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12166,,M,NAN,,,0.0,False,,,False,False,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12168,41.0,,TOWN,34892.9,False,0.0,False,,,,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12171,25.0,,INNER_CITY,14064.9,,3.0,,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12175,,F,INNER_CITY,52674.0,False,2.0,True,,,False,True,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12176,,,RURAL,35610.5,False,,,,,False,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12181,50.0,,TOWN,22052.1,,,,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12182,,M,INNER_CITY,27808.1,False,3.0,False,,,,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12184,35.0,,INNER_CITY,,True,1.0,False,,,False,True,True,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12188,,F,TOWN,22562.2,False,0.0,True,,,True,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12189,30.0,,SUBURBAN,15848.7,True,0.0,,,,True,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12195,61.0,,INNER_CITY,41127.4,True,0.0,,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12199,,F,INNER_CITY,12125.8,False,2.0,False,,,False,False,False,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12200,18.0,,RURAL,15348.9,True,,True,,,,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12201,,,INNER_CITY,,True,,False,,,True,True,True,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12204,43.0,,TOWN,33088.5,False,0.0,False,,,True,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12207,,M,RURAL,,True,0.0,,,,False,False,True,True,missing_required_field:age,2026-03-15T20:16:55.774959
+ID12209,23.0,,INNER_CITY,12681.9,,0.0,False,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12212,34.0,,INNER_CITY,25333.2,True,3.0,True,,,True,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12217,56.0,,TOWN,21730.3,True,2.0,False,,,,False,False,False,missing_required_field:sex,2026-03-15T20:16:55.774959
+ID12224,35.0,,RURAL,33028.3,False,1.0,,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12234,64.0,,SUBURBAN,36436.4,True,0.0,True,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12235,66.0,,TOWN,59503.8,True,2.0,True,,,True,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12238,,F,INNER_CITY,39205.3,False,0.0,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12240,,F,INNER_CITY,55263.0,False,1.0,False,,,,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12248,,F,NAN,18860.3,False,,False,,,False,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12249,,M,RURAL,25732.5,True,0.0,True,,,False,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12250,,F,NAN,28240.4,True,,True,,,False,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12252,43.0,,TOWN,36432.8,,2.0,,,,,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12253,63.0,,NAN,,,2.0,False,,,True,True,True,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12254,33.0,,NAN,24760.8,,1.0,,,,True,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12260,,,TOWN,15315.3,True,1.0,,,,False,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12265,,F,INNER_CITY,24904.0,,,False,,,False,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12267,20.0,,TOWN,9589.91,False,1.0,False,,,True,False,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12270,,M,INNER_CITY,34020.5,True,0.0,False,,,False,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12271,,,INNER_CITY,,True,0.0,,,,False,False,True,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12273,,,INNER_CITY,24346.6,True,3.0,True,,,False,False,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12275,67.0,,TOWN,41558.1,True,2.0,False,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12278,,F,INNER_CITY,30099.3,True,0.0,True,,,True,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12280,,,NAN,36086.1,True,2.0,False,,,False,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12281,,F,NAN,17655.0,True,1.0,False,,,True,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12282,,M,NAN,56658.9,False,0.0,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12288,,F,TOWN,34410.0,True,,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12292,39.0,,INNER_CITY,14996.4,True,1.0,True,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12296,,,INNER_CITY,17839.9,True,1.0,False,,,True,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12297,,,INNER_CITY,18802.4,False,0.0,False,,,True,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12298,52.0,,INNER_CITY,,True,,True,,,,True,True,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12300,,F,INNER_CITY,20819.0,True,0.0,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12301,46.0,,TOWN,26077.8,True,,True,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12303,52.0,,INNER_CITY,16977.3,True,0.0,False,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12305,22.0,,INNER_CITY,,True,1.0,False,,,True,True,True,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12307,63.0,,INNER_CITY,59409.1,,0.0,True,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12312,,,TOWN,33123.7,True,,,,,False,True,False,True,missing_required_field:age; missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12315,23.0,,INNER_CITY,9824.37,True,,,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12320,35.0,,INNER_CITY,28598.7,True,0.0,True,,,False,False,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12323,,F,INNER_CITY,39308.7,True,1.0,False,,,False,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12325,57.0,,RURAL,,True,,,,,False,True,True,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12326,47.0,,RURAL,27434.8,False,0.0,True,,,False,True,False,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12329,,M,NAN,,False,0.0,True,,,True,True,True,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12331,,F,INNER_CITY,30189.4,True,0.0,True,,,,True,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12332,,M,INNER_CITY,28969.4,False,1.0,False,,,True,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12334,,F,TOWN,30404.3,True,0.0,True,,,False,False,False,True,missing_required_field:age,2026-03-15T20:25:57.019675
+ID12336,49.0,,NAN,,,1.0,False,,,True,True,True,False,missing_required_field:sex,2026-03-15T20:25:57.019675
+ID12339,,F,NAN,,True,2.0,,,,False,False,True,True,missing_required_field:age,2026-03-15T20:25:57.019675

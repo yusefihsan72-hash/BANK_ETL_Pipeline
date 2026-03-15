@@ -1,0 +1,8 @@
+{
+  "run_timestamp": "20260315_202557",
+  "source": "customer",
+  "total": 120,
+  "passed": 76,
+  "failed": 44,
+  "quality_pct": 63.33
+}
