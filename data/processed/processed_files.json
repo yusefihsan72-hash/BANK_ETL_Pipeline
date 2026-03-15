@@ -1,0 +1,10 @@
+{
+  "D:\\BANK_ETL_Pipeline\\data\\incoming\\240101_Transactions.csv": {
+    "hash": "d20be932f2515b080de13906a6f229aa98e9aa4abe3e0c6c53ac76a4d91af559",
+    "processed_at": "2026-03-15T14:26:15.173503"
+  },
+  "D:\\BANK_ETL_Pipeline\\data\\incoming\\240102_Customer.csv": {
+    "hash": "467426395afdf649883011e3fef1cd2059d7e5696447f12852b7e071a5183518",
+    "processed_at": "2026-03-15T14:26:16.974623"
+  }
+}
