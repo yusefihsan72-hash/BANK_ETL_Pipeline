@@ -1,0 +1,22 @@
+version: 1
+watcher:
+  data_dir: "./data/incoming"
+  processed_dir: "./data/processed"
+  file_patterns:
+    customer: "^\d{6}_Customer\.csv$"
+    transaction: "^\d{6}_Transactions\.csv$"
+  polling_interval_seconds: 10
+
+sources:
+  csv:
+    enabled: true
+    encoding: "utf-8"
+    delimiter: ","
+  database:
+    enabled: false
+  api:
+    enabled: false
+
+logging:
+  level: "INFO"
+  file: "./logs/pipeline.log"
