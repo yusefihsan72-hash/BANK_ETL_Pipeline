@@ -7152,3 +7152,64 @@ AttributeError: 'WarehouseLoader' object has no attribute 'load_dim_transaction_
 2026-03-15 15:26:18,996 INFO pipeline - -- Processing: 240102_Customer.csv
 2026-03-15 15:26:19,027 INFO warehouse.loader - dim_customer — 390 rows in table (loaded 390)
 2026-03-15 15:26:19,998 INFO extraction.csv_extractor - Skipping (already processed): 240102_Customer.csv
+2026-04-02 20:17:23,066 INFO pipeline - Pipeline starting...
+2026-04-02 20:17:23,084 INFO warehouse.loader - Warehouse tables verified / created.
+2026-04-02 20:17:23,085 INFO warehouse.loader - WarehouseLoader initialized — connected to warehouse\bank_warehouse.db
+2026-04-02 20:17:23,085 INFO pipeline - =======================================================
+2026-04-02 20:17:23,085 INFO pipeline - Pipeline watching : data\incoming
+2026-04-02 20:17:23,086 INFO pipeline - Archive folder    : data\archive
+2026-04-02 20:17:23,086 INFO pipeline - Poll interval     : 10s | Ctrl+C to stop
+2026-04-02 20:17:23,086 INFO pipeline - =======================================================
+2026-04-02 20:24:12,355 INFO pipeline - Pipeline stopped by user (Ctrl+C).
+2026-04-02 20:24:12,356 INFO pipeline - Database connection closed.
+2026-04-02 20:24:12,356 INFO pipeline - Pipeline shutdown complete.
+2026-04-03 14:15:07,691 INFO pipeline - Pipeline starting...
+2026-04-03 14:15:07,701 INFO warehouse.loader - Warehouse tables verified / created.
+2026-04-03 14:15:07,702 INFO warehouse.loader - WarehouseLoader initialized — connected to warehouse\bank_warehouse.db
+2026-04-03 14:15:07,703 INFO pipeline - =======================================================
+2026-04-03 14:15:07,703 INFO pipeline - Pipeline watching : data\incoming
+2026-04-03 14:15:07,703 INFO pipeline - Archive folder    : data\archive
+2026-04-03 14:15:07,703 INFO pipeline - Poll interval     : 10s | Ctrl+C to stop
+2026-04-03 14:15:07,703 INFO pipeline - =======================================================
+2026-04-03 14:15:07,706 INFO pipeline - Found 2 new file(s) to process
+2026-04-03 14:15:08,757 INFO extraction.csv_extractor - Extracted 500 rows from 040326_Customer.csv in 0.02s
+2026-04-03 14:15:08,791 INFO validation.engine - Validation: 500 passed / 0 failed
+2026-04-03 14:15:08,808 INFO warehouse.loader - dim_customer — 650 rows in table (loaded 500)
+2026-04-03 14:15:09,851 INFO extraction.csv_extractor - Extracted 10000 rows from 040326_Transactions.csv in 0.03s
+2026-04-03 14:15:10,174 INFO validation.engine - Validation: 2522 passed / 7478 failed
+2026-04-03 14:15:10,249 INFO warehouse.loader - dim_date — 91 unique dates loaded
+2026-04-03 14:15:10,250 INFO pipeline - [LOAD] dim_date loaded
+2026-04-03 14:15:10,256 INFO warehouse.loader - dim_transaction_type — 2 types in table
+2026-04-03 14:15:10,256 INFO pipeline - [LOAD] dim_transaction_type loaded
+2026-04-03 14:15:10,256 WARNING warehouse.loader - load_dim_account_profile: missing columns ['mortgage', 'pep', 'car'] — inserted default placeholder profile.
+2026-04-03 14:15:10,257 INFO pipeline - [LOAD] dim_account_profile loaded
+2026-04-03 14:15:10,452 INFO warehouse.loader - fact_transactions — 2522 loaded / 0 skipped / 2523 total in table
+2026-04-03 14:22:33,862 INFO pipeline - Pipeline starting...
+2026-04-03 14:22:33,863 INFO warehouse.loader - Warehouse tables verified / created.
+2026-04-03 14:22:33,864 INFO warehouse.loader - WarehouseLoader initialized — connected to warehouse\bank_warehouse.db
+2026-04-03 14:22:33,864 INFO pipeline - =======================================================
+2026-04-03 14:22:33,864 INFO pipeline - Pipeline watching : data\incoming
+2026-04-03 14:22:33,864 INFO pipeline - Archive folder    : data\archive
+2026-04-03 14:22:33,864 INFO pipeline - Poll interval     : 10s | Ctrl+C to stop
+2026-04-03 14:22:33,864 INFO pipeline - =======================================================
+2026-04-03 14:24:30,526 INFO pipeline - Found 2 new file(s) to process
+2026-04-03 14:24:31,545 INFO extraction.csv_extractor - Extracted 500 rows from 030426_Customer.csv in 0.02s
+2026-04-03 14:24:31,565 INFO validation.engine - Validation: 500 passed / 0 failed
+2026-04-03 14:24:31,587 INFO warehouse.loader - dim_customer — 1150 rows in table (loaded 500)
+2026-04-03 14:24:32,624 INFO extraction.csv_extractor - Extracted 10000 rows from 030426_Transactions.csv in 0.03s
+2026-04-03 14:24:32,942 INFO validation.engine - Validation: 2481 passed / 7519 failed
+2026-04-03 14:24:33,013 INFO warehouse.loader - dim_date — 91 unique dates loaded
+2026-04-03 14:24:33,014 INFO pipeline - [LOAD] dim_date loaded
+2026-04-03 14:24:33,018 INFO warehouse.loader - dim_transaction_type — 2 types in table
+2026-04-03 14:24:33,018 INFO pipeline - [LOAD] dim_transaction_type loaded
+2026-04-03 14:24:33,018 WARNING warehouse.loader - load_dim_account_profile: missing columns ['mortgage', 'pep', 'car'] — inserted default placeholder profile.
+2026-04-03 14:24:33,018 INFO pipeline - [LOAD] dim_account_profile loaded
+2026-04-03 14:24:33,214 INFO warehouse.loader - fact_transactions — 2481 loaded / 0 skipped / 5004 total in table
+2026-04-03 14:56:08,508 INFO pipeline - Pipeline starting...
+2026-04-03 14:56:08,510 INFO warehouse.loader - Warehouse tables verified / created.
+2026-04-03 14:56:08,511 INFO warehouse.loader - WarehouseLoader initialized — connected to warehouse\bank_warehouse.db
+2026-04-03 14:56:08,511 INFO pipeline - =======================================================
+2026-04-03 14:56:08,511 INFO pipeline - Pipeline watching : data\incoming
+2026-04-03 14:56:08,511 INFO pipeline - Archive folder    : data\archive
+2026-04-03 14:56:08,511 INFO pipeline - Poll interval     : 10s | Ctrl+C to stop
+2026-04-03 14:56:08,511 INFO pipeline - =======================================================
