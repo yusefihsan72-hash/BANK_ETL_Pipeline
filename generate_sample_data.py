@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # Configuration
-NUM_CUSTOMERS = 1600  # Generate ~2700 customers when including transactions
+NUM_CUSTOMERS = 200  # Generate ~2700 customers when including transactions
 NUM_TRANSACTIONS_PER_CUSTOMER = 20  # Multiple transactions per customer
 OUTPUT_DIR = Path("data/incoming")
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     
     # Generate data
     print(f"\n📊 Generating {NUM_CUSTOMERS} customers...")
-    customers = generate_customers(NUM_CUSTOMERS)
+    customers = generate_customers(NUM_CUSTOMERS, start_id=16000)
     
     print(f"💳 Generating {NUM_CUSTOMERS * NUM_TRANSACTIONS_PER_CUSTOMER} transactions...")
     transactions = generate_transactions(customers, NUM_TRANSACTIONS_PER_CUSTOMER)

@@ -1,0 +1,8 @@
+{
+  "run_timestamp": "20260606_145741",
+  "source": "transactions",
+  "total": 4000,
+  "passed": 1002,
+  "failed": 2998,
+  "quality_pct": 25.05
+}

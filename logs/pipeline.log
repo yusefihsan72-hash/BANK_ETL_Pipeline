@@ -7292,3 +7292,59 @@ AttributeError: 'WarehouseLoader' object has no attribute 'load_dim_transaction_
 2026-06-06 17:27:05,625 WARNING warehouse.loader - load_dim_account_profile: missing columns ['mortgage', 'pep', 'car'] — inserted default placeholder profile.
 2026-06-06 17:27:05,625 INFO pipeline - [LOAD] dim_account_profile loaded
 2026-06-06 17:27:06,063 INFO warehouse.loader - fact_transactions — 5496 loaded / 0 skipped / 14921 total in table
+2026-06-06 17:48:50,797 INFO pipeline - Pipeline starting...
+2026-06-06 17:48:50,799 INFO warehouse.loader - Warehouse tables verified / created.
+2026-06-06 17:48:50,799 INFO warehouse.loader - WarehouseLoader initialized — connected to warehouse\bank_warehouse.db
+2026-06-06 17:48:50,800 INFO pipeline - =======================================================
+2026-06-06 17:48:50,800 INFO pipeline - Pipeline watching : data\incoming
+2026-06-06 17:48:50,800 INFO pipeline - Archive folder    : data\archive
+2026-06-06 17:48:50,800 INFO pipeline - Poll interval     : 10s | Ctrl+C to stop
+2026-06-06 17:48:50,801 INFO pipeline - =======================================================
+2026-06-06 17:50:20,829 INFO pipeline - Found 2 new file(s) to process
+2026-06-06 17:50:21,834 ERROR pipeline - Unexpected error in watch loop: Invalid filename: 060626_Customer_v2.csv
+Traceback (most recent call last):
+  File "C:\Users\AL-ed\uni_pro\BANK_ETL_Pipeline\run.py", line 277, in watch_directory
+    process_file(file_path, config, loader)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AL-ed\uni_pro\BANK_ETL_Pipeline\run.py", line 203, in process_file
+    result = extract_csv_file(file_path, config)
+  File "C:\Users\AL-ed\uni_pro\BANK_ETL_Pipeline\extraction\csv_extractor.py", line 23, in extract_csv_file
+    raise ValueError(f"Invalid filename: {file_path.name}")
+ValueError: Invalid filename: 060626_Customer_v2.csv
+2026-06-06 17:50:31,840 INFO pipeline - Found 2 new file(s) to process
+2026-06-06 17:50:32,844 ERROR pipeline - Unexpected error in watch loop: Invalid filename: 060626_Customer_v2.csv
+Traceback (most recent call last):
+  File "C:\Users\AL-ed\uni_pro\BANK_ETL_Pipeline\run.py", line 277, in watch_directory
+    process_file(file_path, config, loader)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AL-ed\uni_pro\BANK_ETL_Pipeline\run.py", line 203, in process_file
+    result = extract_csv_file(file_path, config)
+  File "C:\Users\AL-ed\uni_pro\BANK_ETL_Pipeline\extraction\csv_extractor.py", line 23, in extract_csv_file
+    raise ValueError(f"Invalid filename: {file_path.name}")
+ValueError: Invalid filename: 060626_Customer_v2.csv
+2026-06-06 17:50:42,849 INFO pipeline - Found 2 new file(s) to process
+2026-06-06 17:50:43,865 INFO extraction.csv_extractor - Extracted 1600 rows from 070626_Customer.csv in 0.01s
+2026-06-06 17:50:43,896 INFO validation.engine - Validation: 1600 passed / 0 failed
+2026-06-06 17:50:43,920 INFO warehouse.loader - dim_customer — 2250 rows in table (loaded 1600)
+2026-06-06 17:50:44,998 INFO extraction.csv_extractor - Extracted 32000 rows from 070626_Transactions.csv in 0.07s
+2026-06-06 17:50:45,974 INFO validation.engine - Validation: 7890 passed / 24110 failed
+2026-06-06 17:50:46,182 INFO warehouse.loader - dim_date — 91 unique dates loaded
+2026-06-06 17:50:46,183 INFO pipeline - [LOAD] dim_date loaded
+2026-06-06 17:50:46,188 INFO warehouse.loader - dim_transaction_type — 2 types in table
+2026-06-06 17:50:46,188 INFO pipeline - [LOAD] dim_transaction_type loaded
+2026-06-06 17:50:46,189 WARNING warehouse.loader - load_dim_account_profile: missing columns ['mortgage', 'pep', 'car'] — inserted default placeholder profile.
+2026-06-06 17:50:46,189 INFO pipeline - [LOAD] dim_account_profile loaded
+2026-06-06 17:50:46,815 INFO warehouse.loader - fact_transactions — 7890 loaded / 0 skipped / 22261 total in table
+2026-06-06 17:54:06,867 INFO pipeline - Found 2 new file(s) to process
+2026-06-06 17:54:07,884 INFO extraction.csv_extractor - Extracted 200 rows from 070726_Customer.csv in 0.01s
+2026-06-06 17:54:07,908 INFO validation.engine - Validation: 200 passed / 0 failed
+2026-06-06 17:54:07,920 INFO warehouse.loader - dim_customer — 2250 rows in table (loaded 200)
+2026-06-06 17:54:08,958 INFO extraction.csv_extractor - Extracted 4000 rows from 070726_Transactions.csv in 0.03s
+2026-06-06 17:54:09,111 INFO validation.engine - Validation: 967 passed / 3033 failed
+2026-06-06 17:54:09,150 INFO warehouse.loader - dim_date — 91 unique dates loaded
+2026-06-06 17:54:09,150 INFO pipeline - [LOAD] dim_date loaded
+2026-06-06 17:54:09,155 INFO warehouse.loader - dim_transaction_type — 2 types in table
+2026-06-06 17:54:09,155 INFO pipeline - [LOAD] dim_transaction_type loaded
+2026-06-06 17:54:09,156 WARNING warehouse.loader - load_dim_account_profile: missing columns ['mortgage', 'pep', 'car'] — inserted default placeholder profile.
+2026-06-06 17:54:09,156 INFO pipeline - [LOAD] dim_account_profile loaded
+2026-06-06 17:54:09,252 INFO warehouse.loader - fact_transactions — 967 loaded / 0 skipped / 23021 total in table

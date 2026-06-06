@@ -22,5 +22,21 @@
   "C:\\Users\\AL-ed\\uni_pro\\BANK_ETL_Pipeline\\data\\incoming\\070626_Transactions.csv": {
     "hash": "a674b2684e9d50d8f1954baf23265b4f4ff31cf45920e4cc624791845f185ca2",
     "processed_at": "2026-06-06T14:50:44.997926"
+  },
+  "C:\\Users\\AL-ed\\uni_pro\\BANK_ETL_Pipeline\\data\\incoming\\070726_Customer.csv": {
+    "hash": "15582ac8d8ec96f79b00efd65b9826d6a0cb4ef9f56b67c577b0ef4b3c813c4a",
+    "processed_at": "2026-06-06T14:54:07.883342"
+  },
+  "C:\\Users\\AL-ed\\uni_pro\\BANK_ETL_Pipeline\\data\\incoming\\070726_Transactions.csv": {
+    "hash": "bc01e1fe58b19b261df75a83b2100729e00802f954f47a416d704dfceae1b023",
+    "processed_at": "2026-06-06T14:54:08.957012"
+  },
+  "C:\\Users\\AL-ed\\uni_pro\\BANK_ETL_Pipeline\\data\\incoming\\080726_Customer.csv": {
+    "hash": "7fddf7f154ad9274b4ccbb86f67ef0ce31cb5995713adb6514becfe1a540adf0",
+    "processed_at": "2026-06-06T14:57:40.318144"
+  },
+  "C:\\Users\\AL-ed\\uni_pro\\BANK_ETL_Pipeline\\data\\incoming\\080726_Transactions.csv": {
+    "hash": "841302b0e6d924b28c2ae387a446fdd06ad1290bcb7b17c474c6a98848816ef0",
+    "processed_at": "2026-06-06T14:57:41.386671"
   }
 }
