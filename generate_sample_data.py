@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # Configuration
-NUM_CUSTOMERS = 500  # 5x larger than current
+NUM_CUSTOMERS = 1100  # Generate ~2250 customers when including transactions
 NUM_TRANSACTIONS_PER_CUSTOMER = 20  # Multiple transactions per customer
 OUTPUT_DIR = Path("data/incoming")
 
